@@ -1,0 +1,15 @@
+<h2>Sign Up Confirmation</h2>
+<h4>Are you sure these values are correct?</h4>
+  <div>
+    </br>
+    <p><strong>Email: <%= @user.email %></strong></p>
+    <p><strong>Name: <%= @user.name %></strong></p>
+    </br>
+  </div>
+  <div>
+    <%= button_to "Yes", {:controller => "users", :action => "create", :params => params}, class: 'btn btn-success pull-left' %>
+  </div>
+  <div>
+    <%= button_to "No", {:controller => "users", :action => "new", :params => params}, class: 'btn btn-default' %>
+  </div>
+</div>
