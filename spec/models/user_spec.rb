@@ -53,13 +53,4 @@ RSpec.describe User, type: :model do
       expect(user_with_invalid_email_format).to_not be_valid
     end
   end
-
-#  describe "capitalize" do
-#    let(:user_with_downcase_name) { User.create!(name: "bloccit user", email: "user@bloccit.com", password: "password") }
-
-#    it "should capitalize_name" do
-#      expect(user_with_downcase_name).to eq("Bloccit User")
-#    end
-#  end
-
 end

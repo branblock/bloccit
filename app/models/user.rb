@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   before_save { :capitalize }
 
   def capitalize
-    self.name.split(" ").map { |word| word.capitalize }.join(" ")
+    name.split(" ").map { |word| word.capitalize }.join(" ")
   end
 
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
