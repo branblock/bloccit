@@ -26,6 +26,16 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe :capitalize do
+    before do
+      user = User.new(name: "bloccit user")
+    end
+
+    it "should capitalize names" do
+      expect(user.name).to eq("Bloccit User")
+    end
+  end
+
   describe "invalid user" do
     let(:user_with_invalid_name) { User.new(name: "", email: "user@bloccit.com") }
     let(:user_with_invalid_email) { User.new(name: "Bloccit User", email: "") }
@@ -44,12 +54,12 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "capitalize" do
-    let(:user) { User.create!(name: "bloccit User", email: "user@bloccit.com", password: "password") }
+#  describe "capitalize" do
+#    let(:user_with_downcase_name) { User.create!(name: "bloccit user", email: "user@bloccit.com", password: "password") }
 
-    it "should capitalize_name of user" do
-      expect(user.name).to eq("Bloccit User")
-    end
-  end
+#    it "should capitalize_name" do
+#      expect(user_with_downcase_name).to eq("Bloccit User")
+#    end
+#  end
 
 end
