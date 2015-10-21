@@ -5,6 +5,7 @@ RSpec.describe Post, type: :model do
   let(:topic) { Topic.create!(name: RandomData.random_sentence, description: RandomData.random_paragraph) }
   let(:user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld") }
   let(:post) { topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user) }
+  let(:new_post) { topic.posts.favorite.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user)}
 
   it { should have_many(:labelings) }
   it { should have_many(:labels).through(:labelings) }
@@ -76,6 +77,24 @@ RSpec.describe Post, type: :model do
         post.votes.create!(value: -1)
         expect(post.rank).to eq (old_rank - 1)
       end
+    end
+  end
+
+  describe "favorite_post" do
+    before do
+      @another_post = Post.new(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user)
+    end
+
+    it "sends an email to user who creates a new post" do
+      user.favorites.create(post: post)
+      expect(FavoriteMailer).to receive(:new_post).once.with(post, user, @another_post).and_return(double(deliver_now: true))
+
+      @another_post.save
+    end
+
+    it "does not send emails to users who haven't created the post" do
+      expect(FavoriteMailer).not_to receive(:new_post)
+      @another_post.save
     end
   end
 end
