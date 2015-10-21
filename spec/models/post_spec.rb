@@ -75,5 +75,13 @@ RSpec.describe Post, type: :model do
         expect(post.rank).to eq (old_rank - 1)
       end
     end
+
+    describe "create_vote" do
+      it "sets the vote value to 1 after post created" do
+        new_post = topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user)
+        new_post.votes.create!(value: 1)
+        expect( new_post.votes.count ).to eq (1)
+      end
+    end
   end
 end
