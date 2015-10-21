@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'rates/show'
+  resources :rates, only: [:show]
+
   resources :labels, only: [:show]
 
   resources :topics do
