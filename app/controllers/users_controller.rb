@@ -4,7 +4,6 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  #create a new user with new and then set the corresponding attributes from the params hash
   def create
     @user = User.new
     @user.name = params[:user][:name]
@@ -12,7 +11,6 @@ class UsersController < ApplicationController
     @user.password = params[:user][:password]
     @user.password_confirmation = params[:user][:password_confirmation]
 
-  #save the new user to the database; if the database save is successful, add a flash message, and if not, display an error message and render the new view
     if @user.save
       flash[:notice] = "Welcome to Bloccit #{@user.name}!"
       create_session(@user)
@@ -21,6 +19,11 @@ class UsersController < ApplicationController
       flash[:error] = "There was an error creating your account. Please try again."
       render :new
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
+    @posts = @user.posts.visible_to(current_user)
   end
 
 end
