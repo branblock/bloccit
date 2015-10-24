@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :levels, only: [:show]
+
   resources :labels, only: [:show]
 
   resources :topics do

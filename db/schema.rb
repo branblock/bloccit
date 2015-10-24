@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151021132639) do
+ActiveRecord::Schema.define(version: 20151024110101) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "body"
@@ -67,6 +67,46 @@ ActiveRecord::Schema.define(version: 20151021132639) do
   end
 
   add_index "labels", ["labelable_type", "labelable_id"], name: "index_labels_on_labelable_type_and_labelable_id"
+
+  create_table "levelings", force: :cascade do |t|
+    t.integer  "level_id"
+    t.integer  "topic_id"
+    t.integer  "post_id"
+    t.integer  "levelable_id"
+    t.string   "levelable_type"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "levelings", ["level_id"], name: "index_levelings_on_level_id"
+  add_index "levelings", ["levelable_type", "levelable_id"], name: "index_levelings_on_levelable_type_and_levelable_id"
+  add_index "levelings", ["post_id"], name: "index_levelings_on_post_id"
+  add_index "levelings", ["topic_id"], name: "index_levelings_on_topic_id"
+
+  create_table "levels", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "levelable_id"
+    t.string   "levelable_type"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "levels", ["levelable_type", "levelable_id"], name: "index_levels_on_levelable_type_and_levelable_id"
+
+  create_table "namings", force: :cascade do |t|
+    t.integer  "name_id"
+    t.integer  "topic_id"
+    t.integer  "post_id"
+    t.integer  "nameable_id"
+    t.string   "nameable_type"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "namings", ["name_id"], name: "index_namings_on_name_id"
+  add_index "namings", ["nameable_type", "nameable_id"], name: "index_namings_on_nameable_type_and_nameable_id"
+  add_index "namings", ["post_id"], name: "index_namings_on_post_id"
+  add_index "namings", ["topic_id"], name: "index_namings_on_topic_id"
 
   create_table "posts", force: :cascade do |t|
     t.string   "title"

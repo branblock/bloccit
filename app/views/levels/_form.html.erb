@@ -1,0 +1,7 @@
+<div class="form-group">
+  <%= f.label :level %>
+  <%= f.text_field  :levels,
+                    class: 'form-control',
+                    placeholder: "Enter PG, PG13 or R. Do not enter more than one level.",
+                    value: levels.map(&:name).join(', ') %>
+</div>

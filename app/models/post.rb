@@ -4,6 +4,8 @@ class Post < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :labelings, as: :labelable
   has_many :labels, through: :labelings
+  has_many :levelings, as: :levelable
+  has_many :levels, through: :levelings
   has_many :votes, dependent: :destroy
   has_many :favorites, dependent: :destroy
 
