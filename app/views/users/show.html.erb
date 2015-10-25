@@ -13,7 +13,8 @@
         <h2 class="media-heading"><%= @user.name %></h2>
         <small>
           <%= pluralize(@user.posts.count, 'post') %>,
-          <%= pluralize(@user.comments.count, 'comment') %>
+          <%= pluralize(@user.comments.count, 'comment') %>,
+          <%= pluralize(@user.favorites.count, 'favorite') %>
         </small>
       </div>
     </div>
@@ -21,24 +22,37 @@
 </div>
 
 <div>
-<% if @user.posts.count == 0 %>
+<% if @user.posts.count < 1 %>
   <%= "#{@user.name} has not submitted any posts yet." %>
 <% else %>
   <h2>Posts</h2>
   <%= render @user.posts %>
 <% end %>
 </div>
-
+</br>
 <div>
-<% if @user.comments.count == 0 %>
+<% if @user.comments.count < 1 %>
   <%= "#{@user.name} has not submitted any comments yet." %>
 <% else %>
   <h2>Comments</h2>
   <%= render @user.comments %>
 <% end %>
 </div>
+</br>
+<div>
 
-<h2>Favorite Posts</h2>
-  <%= render @user.favorites %>
-  <%= image_tag User.avatar_url(current_user, 24), class: "gravatar" %>
-  <%= pluralize(@user.comments.count, 'comment') %>
+<div>
+<% unless @user.favorites.count < 1 %>
+  <h2>Favorite Posts</h2>
+    <% @user.favorites.each do |favorite| %>
+      <%= favorite.post.title %>
+        <% avatar_url = User.avatar_url(@user, 24) %>
+          <% unless avatar_url.nil? %>
+            <%= image_tag avatar_url, class: 'gravatar' %>
+          <% end %>
+      <%= favorite.post.votes.count %> votes,
+      <%= favorite.post.comments.count %> comments
+    <% end %>
+    </div>
+  <% end %>
+</div>
