@@ -5,12 +5,12 @@ class Api::V1::TopicsController < Api::V1::BaseController
 
   def index
     topics = Topic.all
-    render json: topics.to_json, status: 200
+    render json: topics.to_json(:include => :posts), status: 200
   end
 
   def show
     topic = Topic.find(params[:id])
-    render json: topic.to_json, status: 200
+    render json: topic.to_json(:include => :posts), status: 200
   end
 
   def update
@@ -44,8 +44,25 @@ class Api::V1::TopicsController < Api::V1::BaseController
     end
   end
 
+  def create_post
+    topic = Topic.find(params[:id])
+    post = topic.posts.build(post_params)
+    post.user = @current_user
+
+    if post.valid?
+      post.save!
+      render json: post.to_json, status: 200
+    else
+      render json: {error: "Post is invalid", status: 400}, status: 400
+    end
+  end
+
   private
   def topic_params
     params.require(:topic).permit(:name, :description, :public)
+  end
+
+  def post_params
+    params.require(:post).permit(:title, :body)
   end
 end

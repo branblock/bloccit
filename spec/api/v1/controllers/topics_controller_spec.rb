@@ -25,6 +25,11 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
       expect(response).to have_http_status(401)
     end
 
+    it "POST create_post returns http unauthenticated" do
+      post :create_post, topic_id: my_topic.id, post: {title: "Post Title", body: "Post Body"}
+      expect(response).to have_http_status(401)
+    end
+
     it "DELETE destroy returns http unauthenticated" do
       delete :destroy, id: my_topic.id
       expect(response).to have_http_status(401)
@@ -56,6 +61,11 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
       expect(response).to have_http_status(403)
     end
 
+    it "POST create_post returns http forbidden" do
+      post :create_post, topic_id: my_topic.id, post: {title: "Post Title", body: "Post Body"}
+      expect(response).to have_http_status(403)
+    end
+
     it "DELETE destroy returns http forbidden" do
       delete :destroy, id: my_topic.id
       expect(response).to have_http_status(403)
@@ -67,6 +77,7 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
       my_user.admin!
       controller.request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(my_user.auth_token)
       @new_topic = build(:topic)
+      @new_post = build(:post)
     end
 
     describe "PUT update" do
@@ -101,6 +112,24 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
         hashed_json = JSON.parse(response.body)
         expect(@new_topic.name).to eq hashed_json["name"]
         expect(@new_topic.description).to eq hashed_json["description"]
+      end
+    end
+
+    describe "POST create_post" do
+      before { post :create_post, topic_id: my_topic.id, post: {title: @new_post.title, body: @new_post.body} }
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns json content type" do
+        expect(response.content_type).to eq 'application/json'
+      end
+
+      it "creates a post with the correct attributes" do
+        hashed_json = JSON.parse(response.body)
+        expect(@new_post.title).to eq hashed_json["title"]
+        expect(@new_post.body).to eq hashed_json["body"]
       end
     end
 
