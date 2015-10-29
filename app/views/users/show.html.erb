@@ -41,18 +41,22 @@
 </br>
 <div>
 
-<div>
+<div class="favorites_list">
 <% unless @user.favorites.count < 1 %>
   <h2>Favorite Posts</h2>
+  <ul>
     <% @user.favorites.each do |favorite| %>
+    <li>
       <%= favorite.post.title %>
-        <% avatar_url = User.avatar_url(@user, 24) %>
-          <% unless avatar_url.nil? %>
-            <%= image_tag avatar_url, class: 'gravatar' %>
-          <% end %>
+      <% avatar_url = User.avatar_url(@user, 24) %>
+        <% unless avatar_url.nil? %>
+          <%= image_tag avatar_url, class: 'gravatar' %>
+        <% end %>
       <%= favorite.post.votes.count %> votes,
       <%= favorite.post.comments.count %> comments
     <% end %>
+    </li>
+  </ul>
     </div>
   <% end %>
 </div>
