@@ -53,7 +53,7 @@ class Api::V1::TopicsController < Api::V1::BaseController
       post.save!
       render json: post.to_json, status: 200
     else
-      render json: {error: "Post is invalid", status: 400}, status: 400
+      render json: {error: "Post save failed", status: 400}, status: 400
     end
   end
 

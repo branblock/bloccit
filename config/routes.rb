@@ -25,9 +25,8 @@ Rails.application.routes.draw do
       resources :topics, except: [:edit, :new] do
         post :create_post
       end
-      resources :posts, except: [:edit, :new, :create] do
-        resources :comments, only: [:index, :show]
-      end
+      resources :posts, except: [:edit, :new]
+      resources :comments, only: [:index, :show]
     end
   end
 end
