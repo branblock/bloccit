@@ -49,8 +49,7 @@ class Api::V1::TopicsController < Api::V1::BaseController
     post = topic.posts.build(post_params)
     post.user = @current_user
 
-    if post.valid?
-      post.save!
+    if post.save
       render json: post.to_json, status: 200
     else
       render json: {error: "Post save failed", status: 400}, status: 400

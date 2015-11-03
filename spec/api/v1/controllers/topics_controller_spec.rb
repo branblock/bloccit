@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Api::V1::TopicsController, type: :controller do
   let(:my_user) { create(:user) }
   let(:my_topic) { create(:topic) }
-  let(:my_post) { create(:post) }
 
   context "unauthenticated user" do
     it "GET index returns http success" do
@@ -27,7 +26,7 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
     end
 
     it "POST create_post returns http unauthenticated" do
-      post :create_post, topic_id: my_topic.id, post: {title: "Post Title", body: "Post Body"}
+      post :create_post, id: my_topic.id, post: {title: "Post Title", body: "Post Body"}
       expect(response).to have_http_status(401)
     end
 
@@ -63,7 +62,7 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
     end
 
     it "POST create_post returns http forbidden" do
-      post :create_post, topic_id: my_topic.id, post: {title: "Post Title", body: "Post Body"}
+      post :create_post, id: my_topic.id, post: {title: "Post Title", body: "Post Body"}
       expect(response).to have_http_status(403)
     end
 
@@ -117,7 +116,7 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
     end
 
     describe "POST create_post" do
-      before { post :create_post, topic_id: my_topic.id, id: my_post.id, post: {title: @new_post.title, body: @new_post.body} }
+      before { post :create_post, id: my_topic.id, post: {title: @new_post.title, body: @new_post.body} }
 
       it "returns http success" do
         expect(response).to have_http_status(:success)
