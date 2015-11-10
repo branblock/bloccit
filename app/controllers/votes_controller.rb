@@ -1,7 +1,9 @@
 class VotesController < ApplicationController
   before_action :require_sign_in
+  before_action :ready_post
 
   def up_vote
+logger.info "[VotersController#up_vote] enter"
     update_vote(1)
     respond_to do |format|
       format.html
@@ -11,6 +13,7 @@ class VotesController < ApplicationController
 
   def down_vote
     update_vote(-1)
+logger.info "Right Here!"
     respond_to do |format|
       format.html
       format.js
@@ -18,6 +21,12 @@ class VotesController < ApplicationController
   end
 
   private
+
+  def ready_post
+    @post = Post.find(params[:post_id])
+  end
+
+
   def update_vote(new_value)
     @post = Post.find(params[:post_id])
     @vote = @post.votes.where(user_id: current_user.id).first
